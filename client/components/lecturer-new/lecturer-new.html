@@ -1,0 +1,17 @@
+<form>
+	<div class="info-item col-sm-4">
+		<div class="form-group">
+			<label class="label-control">New Lecturer</label>
+			<input type="text" class="form-control" 
+					ng-model="self.lect.name"
+					ng-click="self.message = null">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary" 
+					ng-click="self.addNewLecturer()">Add</button>
+		</div>
+		<span>{{self.message}}</span>
+		<br>
+		<a ng-click="self.viewLecturerList()">Lecturers list</a>
+	</div>
+</form>

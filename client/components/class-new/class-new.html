@@ -1,0 +1,28 @@
+<form>
+	<div class="info-item col-sm-4">
+		<div class="form-group">
+			<label class="label-control">New Class</label>
+			<input type="text" class="form-control" 
+					ng-model="self.class.name"
+					ng-click="self.message = null">
+		</div>
+		<div class="form-group">
+			<label class="label-control">Credit</label>
+			<input type="number" class="form-control" 
+					ng-model="self.class.credit"
+					ng-click="self.message = null">
+		</div>
+		<div class="form-group">
+			<label class="label-control">Demand</label>
+			<input type="number" class="form-control" 
+					ng-model="self.class.demand"
+					ng-click="self.message = null">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary" 
+					ng-click="self.addNewClass()">Add</button>
+		</div>
+		<span>{{self.message}}</span><br>
+		<a ng-click="self.viewClassList()">Classes list</a>
+	</div>
+</form>

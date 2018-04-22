@@ -1,0 +1,55 @@
+<div>
+	<ul class="nav nav-pills">
+        <li ng-class="{active:self.isSet(1)}"><a href ng-click="self.setTab(1)">TIMETABLE</a></li>
+        <!-- <li ng-class="{active:self.isSet(2)}"><a href ng-click="self.setTab(2)">Room TTB</a></li>
+        <li ng-class="{active:self.isSet(3)}"><a href ng-click="self.setTab(3)">Class TTB</a></li> -->
+    </ul>
+    
+    <div ng-show="self.isSet(1)">
+		<table class="table table-bordered">
+		    <thead>
+			    <tr>
+			        <!-- <th>&nbsp;</th> -->
+			        <th>Class</th>
+			        <th>Lecturer</th>
+			        <th>Room</th>
+			        <th>Time</th>
+			    </tr>
+		    </thead>
+		    <tbody ng-repeat="c in self.classes">
+		      	<tr ng-repeat="child in c.children">
+					<!-- <td>{{$index+1}}</td> -->
+					<td rowspan="{{c.children.length}}"
+						ng-hide="$index>0">
+						{{c.name}}
+					</td>
+					<td>
+						{{child.lecturer}}
+					</td>
+					<td>
+						{{child.room}}
+					</td>
+					<td>
+						S{{child.period}}; D{{child.day}}
+					</td>
+		      	</tr>
+		    </tbody>
+		</table>
+    </div>
+    <!-- <div ng-show="self.isSet(2)">
+        <div class="col-sm-3">
+        	<div class="form-group">
+				<label class="label-control">Select Lecturer</label>
+				<select class="form-control"
+						ng-model="self.selectedLecturer"
+						ng-options="d.name for d in data"></select>
+			</div>
+        </div>
+        <div class="col-sm-8">
+        	
+        </div>
+    </div>
+    <div ng-show="self.isSet(3)">
+         <h4>Tab 3</h4>
+    </div> -->
+</div>

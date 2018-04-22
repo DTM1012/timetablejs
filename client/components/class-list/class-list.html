@@ -1,0 +1,55 @@
+<a ng-click="self.viewClassNew()">Add New</a>
+<form>
+	<div class="table-list col-sm-8">
+		<table class="table table-bordered">
+		    <thead>
+			    <tr>
+			        <th>Class Name</th>
+			        <th>Credit</th>
+			        <th>Demand</th>
+			        <th>Actions</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+		      	<tr ng-repeat="c in self.classes">
+					<td width="30%">
+						{{c.name}}
+					</td>
+					<td width="20%">
+						{{c.credit}}
+					</td>
+					<td width="20%">
+						{{c.demand}}
+					</td>
+					<td width="25%">
+						<button class="btn btn-default btn-sm" ng-click="self.onButtonEdit(c); self.onEdit = 'true'">
+							<i class="fas fa-pencil-alt hover-style"></i> Edit
+						</button>
+						<button class="btn btn-primary btn-sm" ng-click="self.deleteClass(c);">
+							<i class="far fa-trash-alt hover-style"></i> Delete
+						</button>
+					</td>
+		      	</tr>
+		    </tbody>
+		  </table>
+	</div>
+	<div class="col-sm-4" ng-if="self.onEdit == 'true'">
+		<div class="form-group">
+			<label class="label-control">Edit Class</label>
+			<input type="text" class="form-control" 
+					ng-model="self.class.name">
+		</div>
+		<div class="form-group">
+			<label class="label-control">Credit</label>
+			<input type="text" class="form-control" 
+					ng-model="self.class.credit">
+		</div>
+		<div class="form-group">
+			<label class="label-control">Demand</label>
+			<input type="text" class="form-control" 
+					ng-model="self.class.demand">
+		</div>
+		<button class="btn btn-primary btn-sm float-right"
+				ng-click="self.editClass(self.class);">Edit</button>
+	</div>
+</form>

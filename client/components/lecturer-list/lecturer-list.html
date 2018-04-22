@@ -1,0 +1,37 @@
+<a ng-click="self.viewLecturerNew()">Add New</a>
+<form>
+	<div class="table-list col-sm-6">
+		<table class="table table-bordered">
+		    <thead>
+			    <tr>
+			        <th>Lecturer Name</th>
+			        <th>Actions</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+		      	<tr ng-repeat="l in self.lecturers">
+					<td width="70%">
+						{{l.name}}
+					</td>
+					<td width="30%">
+						<button class="btn btn-default btn-sm" ng-click="self.onButtonEdit(l); self.onEdit = 'true'">
+							<i class="fas fa-pencil-alt hover-style"></i> Edit
+						</button>
+						<button class="btn btn-primary btn-sm" ng-click="self.deleteLecturer(l);">
+							<i class="far fa-trash-alt hover-style"></i> Delete
+						</button>
+					</td>
+		      	</tr>
+		    </tbody>
+		</table>
+	</div>
+	<div class="col-sm-4" ng-if="self.onEdit == 'true'">
+		<div class="form-group">
+			<label class="label-control">Edit Lecturer</label>
+			<input type="text" class="form-control" 
+					ng-model="self.lect.name">
+		</div>
+		<button class="btn btn-primary btn-sm float-right"
+				ng-click="self.editLecturer(self.lect);">Edit</button>
+	</div>
+</form>
