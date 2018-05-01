@@ -29,6 +29,9 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+  <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+
   <link rel="stylesheet" type="text/css" href="assets/css/app.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -74,36 +77,40 @@
         <li class="header">MAIN NAVIGATION</li>
         <li>
           <a ng-click="view('lecturerList');">
-            <i class="fas fa-university"></i>&nbsp;Lecturers
+            <i class="fas fa-university"></i> <span>Lecturers</span>
           </a>
         </li>
         <li>
           <a ng-click="view('classList');">
-            <i class="fas fa-university"></i>&nbsp;Classes
+            <i class="fas fa-university"></i><span>Classes</span>
           </a>
         </li>
         <li>
           <a ng-click="view('roomList');">
-            <i class="fas fa-university"></i>&nbsp;Rooms
+            <i class="fas fa-university"></i><span>Rooms</span>
           </a>
         </li>
         <li>
-          <a><i class="fas fa-link"></i> <span>Lecturers-Classes</span></a>
-        </li>
-        <li>
-          <a><i class="fas fa-link"></i> <span>Lecturers-Slots</span></a>
-        </li>
-        <li>
-          <a><i class="fas fa-link"></i> <span>Rooms-Classes</span></a>
-        </li>
-        <li class="bg-green">
-          <a style="background-color: rgb(0, 166, 90);">
-            <i class="far fa-calendar-alt" style="color: rgb(255, 255, 255);"></i>
-            <span style="color: rgb(255, 255, 255);">GENERATE TIMETABLE</span>
+          <a ng-click="view('lecturerClass');">
+            <i class="fas fa-link"></i> <span>Lecturers-Classes</span>
           </a>
         </li>
+        <li>
+          <a ng-click="view('lecturerSlot');">
+            <i class="fas fa-link"></i> <span>Lecturers-Slots</span>
+          </a>
+        </li>
+        <li>
+          <a ng-click="view('roomClass');">
+            <i class="fas fa-link"></i> <span>Rooms-Classes</span>
+          </a>
+        </li>
+        <li class="generate" style="margin: 1.5em">
+          <button class="padding-0_5em"
+                  ng-click="generate()">Generate</button>
+        </li>
         <li class="bg-green">
-          <a style="background-color: rgb(0, 166, 90);">
+          <a style="background-color: rgb(0, 166, 90);" ng-click="view('timetable');">
             <i class="far fa-calendar-alt" style="color: rgb(255, 255, 255);"></i>
             <span style="color: rgb(255, 255, 255);">SHOW TIMETABLE</span>
           </a>
@@ -125,8 +132,13 @@
 
       <room-new ng-if="roomNew"></room-new>
       <room-list ng-if="roomList"></room-list>
-
-      <timetable></timetable>
+      <lecturer-class ng-if="lecturerClass"></lecturer-class>
+      <lecturer-slot ng-if="lecturerSlot"></lecturer-slot>
+      <room-class ng-if="roomClass"></room-class>
+      <div class="spinner-backdrop" ng-if="spinner">
+        <div id="spinnerHolder"></div>
+      </div>
+      <timetable ng-if="timetable"></timetable>
 
     </section>
     <!-- /.content -->
@@ -174,6 +186,25 @@
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+
+<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="dist/js/demo.js"></script>
+
+
 <script type="text/javascript" src="main.min.js"></script>
+
+<script>
+  $(function () {
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
 </body>
 </html>

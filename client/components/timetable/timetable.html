@@ -1,55 +1,112 @@
-<div>
-	<ul class="nav nav-pills">
-        <li ng-class="{active:self.isSet(1)}"><a href ng-click="self.setTab(1)">TIMETABLE</a></li>
-        <!-- <li ng-class="{active:self.isSet(2)}"><a href ng-click="self.setTab(2)">Room TTB</a></li>
-        <li ng-class="{active:self.isSet(3)}"><a href ng-click="self.setTab(3)">Class TTB</a></li> -->
-    </ul>
-    
-    <div ng-show="self.isSet(1)">
-		<table class="table table-bordered">
-		    <thead>
-			    <tr>
-			        <!-- <th>&nbsp;</th> -->
-			        <th>Class</th>
-			        <th>Lecturer</th>
-			        <th>Room</th>
-			        <th>Time</th>
-			    </tr>
-		    </thead>
-		    <tbody ng-repeat="c in self.classes">
-		      	<tr ng-repeat="child in c.children">
-					<!-- <td>{{$index+1}}</td> -->
-					<td rowspan="{{c.children.length}}"
-						ng-hide="$index>0">
-						{{c.name}}
-					</td>
-					<td>
-						{{child.lecturer}}
-					</td>
-					<td>
-						{{child.room}}
-					</td>
-					<td>
-						S{{child.period}}; D{{child.day}}
-					</td>
-		      	</tr>
-		    </tbody>
-		</table>
-    </div>
-    <!-- <div ng-show="self.isSet(2)">
-        <div class="col-sm-3">
-        	<div class="form-group">
-				<label class="label-control">Select Lecturer</label>
-				<select class="form-control"
-						ng-model="self.selectedLecturer"
-						ng-options="d.name for d in data"></select>
-			</div>
-        </div>
-        <div class="col-sm-8">
-        	
-        </div>
-    </div>
-    <div ng-show="self.isSet(3)">
-         <h4>Tab 3</h4>
-    </div> -->
-</div>
+<section class="content">
+  	<div class="row">
+    	<div class="col-sm-12">
+      		<div class="box">
+        		<div class="box-header">
+          			<ul class="nav nav-pills">
+				        <li ng-class="{active:self.isSet(1)}"><a href ng-click="self.setTab(1)">TIMETABLE</a></li>
+				        <li ng-class="{active:self.isSet(2)}"><a href ng-click="self.setTab(2)">Lecturer TTB</a></li>
+				        <li ng-class="{active:self.isSet(3)}"><a href ng-click="self.setTab(3)">Room TTB</a></li>
+				    </ul>
+        		</div>
+        		<!-- /.box-header -->
+	       		<div class="box-body" ng-if="self.isSet(1)">
+	          		<table id="example2" class="table table-bordered table-hover">
+			            <thead>
+						    <tr>
+						        <th>&nbsp;</th>
+						        <th>Monday</th>
+						        <th>Tuesday</th>
+						        <th>Wednesday</th>
+						        <th>Thursday</th>
+						        <th>Friday</th>
+						    </tr>
+					    </thead>
+					    <tbody>
+					      	<tr ng-repeat="p in self.periods">
+								<th>{{p.time}}</th>
+								<td>{{self.getContent(p.s, 1, 1)}}</td>
+								<td>{{self.getContent(p.s, 2, 1)}}</td>
+								<td>{{self.getContent(p.s, 3, 1)}}</td>
+								<td>{{self.getContent(p.s, 4, 1)}}</td>
+								<td>{{self.getContent(p.s, 5, 1)}}</td>
+					      	</tr>
+					    </tbody>
+			        </table>
+	        	</div>
+	       		<div class="box-body" ng-if="self.isSet(2)">
+	       			<div class="col-sm-3">
+			        	<div class="form-group">
+							<label class="label-control">Select Lecturer</label>
+							<select class="form-control"
+									ng-model="self.selectedLecturer"
+									ng-options="l.name for l in self.lecturers"
+									ng-change="self.onSelectLect();"></select>
+						</div>
+			        </div>
+			        <div class="col-sm-8">
+			        	<table id="example2" class="table table-bordered table-hover">
+						    <thead>
+							    <tr>
+							        <th>&nbsp;</th>
+							        <th>Monday</th>
+							        <th>Tuesday</th>
+							        <th>Wednesday</th>
+							        <th>Thursday</th>
+							        <th>Friday</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						      	<tr ng-repeat="p in self.periods">
+									<th>{{p.time}}</th>
+									<td>{{self.getContent(p.s, 1, 2)}}</td>
+									<td>{{self.getContent(p.s, 2, 2)}}</td>
+									<td>{{self.getContent(p.s, 3, 2)}}</td>
+									<td>{{self.getContent(p.s, 4, 2)}}</td>
+									<td>{{self.getContent(p.s, 5, 2)}}</td>
+						      	</tr>
+						    </tbody>
+						</table>
+			        </div>
+	       		</div>
+	       		<div class="box-body" ng-if="self.isSet(3)">
+	       			<div class="col-sm-3">
+			        	<div class="form-group">
+							<label class="label-control">Select Room</label>
+							<select class="form-control"
+									ng-model="self.selectedRoom"
+									ng-options="r.name for r in self.rooms"
+									ng-change="self.onSelectRoom();"></select>
+						</div>
+			        </div>
+			        <div class="col-sm-8">
+			        	<table id="example2" class="table table-bordered table-hover">
+						    <thead>
+							    <tr>
+							        <th>&nbsp;</th>
+							        <th>Monday</th>
+							        <th>Tuesday</th>
+							        <th>Wednesday</th>
+							        <th>Thursday</th>
+							        <th>Friday</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						      	<tr ng-repeat="p in self.periods">
+									<th>{{p.time}}</th>
+									<td>{{self.getContent(p.s, 1, 3)}}</td>
+									<td>{{self.getContent(p.s, 2, 3)}}</td>
+									<td>{{self.getContent(p.s, 3, 3)}}</td>
+									<td>{{self.getContent(p.s, 4, 3)}}</td>
+									<td>{{self.getContent(p.s, 5, 3)}}</td>
+						      	</tr>
+						    </tbody>
+						</table>
+			        </div>
+	       		</div>
+        <!-- /.box-body -->
+      		</div>
+     	<!-- /.box -->
+    	</div>
+	</div>
+</section>

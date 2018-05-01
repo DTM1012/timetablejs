@@ -1,0 +1,1 @@
+glpsol --model glpk_file.mod

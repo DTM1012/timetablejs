@@ -1,4 +1,5 @@
 let classNew = 'classNew';
+let api = require('../api');
 
 angular.module(classNew, []).component(classNew, {
 	template : require('html-loader!./class-new.html'),
@@ -21,16 +22,11 @@ function Controller ($scope, $http) {
 	};
 	this.addNewClass = function () {
 		if(!self.class.name) return;
-		$http({
-			method: 'POST',
-			url: '/class/new', 
-			data: self.class
-		}).then(function(res) {
-			console.log(res);
-			self.class = {};
-			self.message = "Add new class successfull!"
-		}, function(err){
-			console.error(err);
+		api.newClass($http, self.class, function(res) {
+			if(res) {
+				self.class = {};
+				self.message = "Add new class successfull!"
+			};
 		});
 	}
 }

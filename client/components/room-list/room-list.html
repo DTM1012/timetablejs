@@ -1,46 +1,61 @@
 <a ng-click="self.viewRoomNew()">Add New</a>
-<form>
-	<div class="table-list col-sm-8">
-		<table class="table table-bordered">
-		    <thead>
-			    <tr>
-			        <th>Room Name</th>
-			        <th>Capacity</th>
-			        <th>Actions</th>
-			    </tr>
-		    </thead>
-		    <tbody>
-		      	<tr ng-repeat="r in self.rooms">
-					<td width="30%">
-						{{r.name}}
-					</td>
-					<td width="20%">
-						{{r.capacity}}
-					</td>
-					<td width="25%">
-						<button class="btn btn-default btn-sm" ng-click="self.onButtonEdit(r); self.onEdit = 'true'">
-							<i class="fas fa-pencil-alt hover-style"></i> Edit
-						</button>
-						<button class="btn btn-primary btn-sm" ng-click="self.deleteRoom(r);">
-							<i class="far fa-trash-alt hover-style"></i> Delete
-						</button>
-					</td>
-		      	</tr>
-		    </tbody>
-		  </table>
-	</div>
-	<div class="col-sm-4" ng-if="self.onEdit == 'true'">
-		<div class="form-group">
-			<label class="label-control">Edit Room</label>
-			<input type="text" class="form-control" 
-					ng-model="self.room.name">
+<section class="content">
+  	<div class="row">
+    	<div class="col-sm-8">
+      		<div class="box">
+        		<div class="box-header">
+          			<h3 class="box-title">Class List</h3>
+        		</div>
+        		<!-- /.box-header -->
+	       		<div class="box-body">
+	          		<table id="example2" class="table table-bordered table-hover">
+			            <thead>
+				            <tr>
+				              	<th>No.</th>
+				              	<th>Room Name</th>
+						        <th>Capacity</th>
+						        <th>Actions</th>
+				            </tr>
+			            </thead>
+			            <tbody>
+			            	<tr ng-repeat="r in self.rooms">
+			            		<td>{{$index + 1}}</td>
+								<td width="30%">
+									{{r.name}}
+								</td>
+								<td width="20%">
+									{{r.capacity}}
+								</td>
+								<td width="25%">
+									<button class="btn btn-default btn-sm" ng-click="self.onButtonEdit(r); self.onEdit = 'true'">
+										<i class="fas fa-pencil-alt hover-style"></i> Edit
+									</button>
+									<button class="btn btn-primary btn-sm" ng-click="self.deleteRoom(r);">
+										<i class="far fa-trash-alt hover-style"></i> Delete
+									</button>
+								</td>
+					      	</tr>
+			            </tbody>
+			        </table>
+	        	</div>
+        <!-- /.box-body -->
+      		</div>
+     	<!-- /.box -->
+    	</div>
+    <!-- /.col -->
+	    <div class="col-sm-4" ng-if="self.onEdit == 'true'">
+			<div class="form-group">
+				<label class="label-control">Edit Room</label>
+				<input type="text" class="form-control" 
+						ng-model="self.room.name">
+			</div>
+			<div class="form-group">
+				<label class="label-control">Capacity</label>
+				<input type="text" class="form-control" 
+						ng-model="self.room.capacity">
+			</div>
+			<button class="btn btn-primary btn-sm float-right"
+					ng-click="self.editRoom(self.room);">Edit</button>
 		</div>
-		<div class="form-group">
-			<label class="label-control">Capacity</label>
-			<input type="text" class="form-control" 
-					ng-model="self.room.capacity">
-		</div>
-		<button class="btn btn-primary btn-sm float-right"
-				ng-click="self.editRoom(self.room);">Edit</button>
 	</div>
-</form>
+</section>

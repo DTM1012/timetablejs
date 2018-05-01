@@ -1,0 +1,36 @@
+<section class="content">
+  	<div class="row">
+    	<div class="col-sm-12">
+      		<div class="box">
+        		<div class="box-header">
+          			<h3 class="box-title">Lecturers-Slots</h3>
+        		</div>
+        		<!-- /.box-header -->
+	       		<div class="box-body">
+	          		<table id="example2" class="table table-bordered table-hover">
+			            <thead>
+						    <tr>
+						        <th>&nbsp;</th>
+						        <th ng-repeat="r in self.rooms"
+						        	class="text-center">{{r.name}}</th>
+						    </tr>
+					    </thead>
+					    <tbody>
+					      	<tr ng-repeat="d in self.data">
+								<th>{{d.name}}</th>
+								<td ng-repeat="c in d.children"
+									class="text-center"
+									ng-click="self.toggleValue(c.idRoom, c.idClass, c.value)">
+									<i class='fas fa-check' 
+										ng-class="{'color-black': c.value, 'color-lightgray': !c.value}"></i>
+								</td>
+					      	</tr>
+					    </tbody>
+			        </table>
+	        	</div>
+        <!-- /.box-body -->
+      		</div>
+     	<!-- /.box -->
+    	</div>
+	</div>
+</section>

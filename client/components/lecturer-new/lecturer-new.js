@@ -1,4 +1,5 @@
 let lecturerNew = 'lecturerNew';
+let api = require('../api');
 
 angular.module(lecturerNew, []).component(lecturerNew, {
 	template : require('html-loader!./lecturer-new.html'),
@@ -19,18 +20,13 @@ function Controller ($scope, $http) {
 	};
 	this.addNewLecturer = function () {
 		if(!self.lect.name) return;
-		$http({
-			method: 'POST',
-			url: '/lecturer/new', 
-			data: self.lect
-		}).then(function(res) {
-			console.log(res);
-			self.lect = {};
-			self.message = "Add new lecturer successfull!"
-		}, function(err){
-			console.error(err);
+		api.newLecturer($http, self.lect, function(res) {
+			if(res) {
+				self.lect = {};
+				self.message = "Add new lecturer successfull!"
+			};
 		});
-	}
-}
+	};
+};
 
 module.exports = lecturerNew;

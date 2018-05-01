@@ -1,4 +1,5 @@
 let roomNew = 'roomNew';
+let api = require('../api');
 
 angular.module(roomNew, []).component(roomNew, {
 	template : require('html-loader!./room-new.html'),
@@ -20,16 +21,11 @@ function Controller ($scope, $http) {
 	};
 	this.addNewRoom = function () {
 		if(!self.room.name) return;
-		$http({
-			method: 'POST',
-			url: '/room/new', 
-			data: self.room
-		}).then(function(res) {
-			console.log(res);
-			self.room = {};
-			self.message = "Add new room successfull!"
-		}, function(err){
-			console.error(err);
+		api.newRoom($http, self.room, function(res) {
+			if(res) {
+				self.room = {};
+				self.message = "Add new room successfull!"
+			};
 		});
 	}
 }

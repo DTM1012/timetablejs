@@ -1,55 +1,39 @@
+'use strict';
+
 let moduleName = 'lecturerList';
+let api = require('../api');
 
 angular.module(moduleName, []).component(moduleName, {
 	template : require('html-loader!./lecturer-list.html'),
 	controller : controller,
 	controllerAs : 'self'
 });
-
 function controller ($scope, $http, $timeout) {
 	let self = this;
 	this.message = null;
 	this.onEdit = false;
-	console.log('onEdit', this.onEdit);
-	function listLecturer() {
-		$http({
-			method: 'POST',
-			url: '/lecturer/list'
-		}).then(function(res) {
-			console.log(res);
-			self.lecturers = res.data.data;
-
-		}).catch(function(error) {
-			console.log(error);
-		});
-	}
-	listLecturer();
+	api.listLecturer($http, function(res) {
+		self.lecturers = res;
+	});
+	
 	this.viewLecturerNew = function() {
-		console.log($scope.$parent);
 		$scope.$parent.view('lecturerNew');
 	};
+
 	this.onButtonEdit = function(l) {
 		console.log(l, self.onEdit);
 		self.onEdit = true;
 		self.lect = angular.copy(l);
 	}
 	this.editLecturer = function(l) {
-		console.log("edit", l);
-		$http({
-			method: 'POST',
-			url: '/lecturer/edit',
-			headers: {
-		        'Content-type': 'application/json;charset=utf-8'
-		    },
-			data: l
-		}).then(function(res) {
-			console.log(res);
-			listLecturer();
-			self.message = "Edit Lecturer successfull!";
-			self.onEdit = false;
-
-		}).catch(function(error) {
-			console.log(error);
+		api.editLecturer($http, l, function(res) {
+			if(res) {
+				api.listLecturer($http, function(res) {
+					self.lecturers = res;
+				});
+				self.message = "Edit Lecturer successfull!";
+				self.onEdit = false;
+			}
 		});
 	}
 	this.deleteLecturer = function(l) {
@@ -57,20 +41,13 @@ function controller ($scope, $http, $timeout) {
 		let request = {
 			idLecturer: l.idLecturer
 		}
-		$http({
-			method: 'DELETE',
-			url: '/lecturer/delete',
-			headers: {
-		        'Content-type': 'application/json;charset=utf-8'
-		    },
-			data: request
-		}).then(function(res) {
-			console.log(res);
-			listLecturer();
-			self.message = "Delete Lecturer successfull!";
-
-		}).catch(function(error) {
-			console.log(error);
+		api.deleteLecturer($http, request, function(res) {
+			if(res) {
+				api.listLecturer($http, function(res) {
+					self.lecturers = res;
+				});
+				self.message = "Delete Lecturer successfull!";
+			}
 		});
 	}
 }

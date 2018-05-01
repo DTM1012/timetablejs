@@ -1,5 +1,5 @@
 let timetable = 'timetable';
-
+let api = require('../api');
 angular.module(timetable, []).component(timetable, {
 	template : require('html-loader!./timetable.html'),
 	controller : Controller,
@@ -8,30 +8,6 @@ angular.module(timetable, []).component(timetable, {
 });
 function Controller ($scope, $http) {
 	let self = this;
-	this.data = [
-		{
-			lecturer: "LECT001",
-			room: "R001",
-			class: "INT001",
-			slot: "S7"
-		},{
-			lecturer: "LECT001",
-			room: "R001",
-			class: "INT001",
-			slot: "S25"
-		},{
-			lecturer: "LECT002",
-			room: "R004",
-			class: "INT006",
-			slot: "S5"
-		},{
-			lecturer: "LECT002",
-			room: "R002",
-			class: "INT003",
-			slot: "S1"
-		}
-	];
-	// this.selectedLecturer = this.data[0];
 	this.tab = 1;
 
     this.setTab = function (tabId) {
@@ -41,7 +17,76 @@ function Controller ($scope, $http) {
     this.isSet = function (tabId) {
         return this.tab === tabId;
     };
+    api.timetable($http, function(res) {
+    	console.log("res", res);
+    	self.data = res;
+    	self.data.forEach(function(d) {
+    		d.day = convertSlot(d.idSlot).day;
+			d.period = convertSlot(d.idSlot).period;
+    	});
+    	api.listLecturer($http, function(lecturers) {
+			if(lecturers) {
+				self.lecturers = lecturers;
+				api.listRoom($http, function(rooms) {
+					if(rooms) {
+						self.rooms = rooms;
+						api.listClass($http, function(classes) {
+							if(classes) {
+								self.classes = classes;
+								self.classes.forEach(function(c) {
+									c.children = self.data.filter(d => d.class == c.name);
+								});
+								self.lecturerData = [];
+								self.roomData = [];
 
+								self.onSelectLect = function() {
+									self.lecturerData = self.data.filter(d => d.lecturer == self.selectedLecturer.name);
+								};
+
+								self.onSelectRoom = function() {
+									self.roomData = self.data.filter(d => d.room == self.selectedRoom.name);
+								};
+								self.getContent = function(slot, day, tab) {
+									let str ='';
+									if(tab == 1) {
+										let content = self.data.filter(d => (d.period == slot && d.day == day));
+										if(content.length) {
+											content.forEach(function(c) {
+												c.class = self.classes.find(cl => cl.idClass == c.idClass).name;
+												c.lecturer = self.lecturers.find(l => l.idLecturer == c.idLecturer).name;
+												c.room = self.rooms.find(r => r.idRoom == c.idRoom).name;
+												str += (c.class + '-' + c.lecturer + '-' + c.room + '\n');
+											});
+										}
+									} else if (tab == 2) {
+										let content = self.lecturerData.filter(d => (d.period == slot && d.day == day));
+										if(content.length) {
+											content.forEach(function(ld) {
+												ld.class = self.classes.find(cl => cl.idClass == ld.idClass).name;
+												ld.room = self.rooms.find(r => r.idRoom == ld.idRoom).name;
+
+												str = (ld.class + '-' + ld.room);
+											});
+										}
+									} else if (tab == 3) {
+										let content = self.roomData.filter(d => (d.period == slot && d.day == day));
+										if(content.length) {
+											content.forEach(function(ld) {
+												ld.class = self.classes.find(cl => cl.idClass == ld.idClass).name;
+												ld.lecturer = self.lecturers.find(l => l.idLecturer == ld.idLecturer).name;
+												str = (ld.class + '-' + ld.lecturer);
+											});
+										}
+									};
+									return str;
+								};
+							}
+						});
+					}
+				});
+			}
+		});
+    });
     
 	function convertSlot (slot) {
 		let day = null;
@@ -55,49 +100,9 @@ function Controller ($scope, $http) {
 		};
 		return {day: day, period: period};
 	};
-	this.data.forEach(function(d) {
-		d.day = convertSlot(d.slot.slice(1, d.slot.length +1)).day;
-		d.period = convertSlot(d.slot.slice(1, d.slot.length +1)).period;
-	});
-	/*function listClass() {
-		let promise = new Promise(function(resolve, reject) {
-			$http({
-				method: 'POST',
-				url: '/class/list'
-			}).then(function(res) {
-				console.log(res);
-				self.classes = res.data.data;
-				resolve();
-			}).catch(function(error) {
-				console.log(error);
-				reject();
-			});
-		})
-		return promise;
-	};
-	listClass()
-	.then(function() {
-		self.classes.forEach(function(c) {
-			c.children = self.data.filter(d => d.class == c.name);
-		});
-		console.log("classes", self.classes);
-	})
-	.catch(function() {
-		console.log("fail");
-	});
-	*/
-	$http({
-		method: 'POST',
-		url: '/class/list'
-	}).then(function(res) {
-		console.log(res);
-		self.classes = res.data.data;
-		self.classes.forEach(function(c) {
-			c.children = self.data.filter(d => d.class == c.name);
-		});
-	}).catch(function(error) {
-		console.log(error);
-	});
-}
+	
+	
+	this.periods = [{s: 1,time: '7:00-900'},{s: 2,time: '9:00-11:00'},{s: 3,time: '11:00-13:00'},{s: 4,time: '13:00-15:00'},{s: 5,time: '15:00-17:00'}];
+};
 
 module.exports = timetable;

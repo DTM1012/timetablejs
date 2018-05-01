@@ -3,15 +3,30 @@ var models = require('../models/index.js');
 var router = express.Router();
 
 var Room = models.Room;
+var Class = models.Class;
+
+var RoomClass = models.RoomClass;
 
 router.post('/new', function(req, res) {
 	let newRoom = req.body;
-	Room.create(newRoom).then(function(l){
-		console.log(l.get());
+	Room.create(newRoom).then(function(r){
+		Class.findAll().then(function(classes) {
+			classes.forEach(function(c) {
+				let prepareData = {
+					idRoom: r.get().idRoom,
+					idClass: c.get().idClass,
+					value: false
+				};
+				RoomClass.create(prepareData).then(function(rc) {
+					console.log(rc);
+				});
+			});
+		});
+
 		res.send( {
 			code : 200,
 			message : "success",
-			data : l.get()
+			data : r.get()
 		});
 	}).catch(function(err){
 		res.send( {
@@ -30,11 +45,11 @@ router.post('/edit', function(req, res) {
 				capacity: req.body.capacity
 			} , 
 	      	{ where: { idRoom : req.body.idRoom }} 
-		).then(function(l) {
+		).then(function(r) {
 		res.send( {
 			code : 200,
 			message : "success",
-			data : l
+			data : r
 		})
 	}).catch(function(err) {
 		res.send( {
@@ -51,11 +66,11 @@ router.delete('/delete', function(req, res) {
 		where: {
 			idRoom: req.body.idRoom
 		}
-	}).then(function(l) {
+	}).then(function(r) {
 		res.send( {
 			code : 200,
 			message : "success",
-			data : l
+			data : r
 		})
 	}).catch(function(err) {
 		res.send( {
@@ -72,8 +87,8 @@ router.post('/list', function(req, res) {
 		res.send( {
 			code: 200,
 			message: 'success',
-			data: rooms.map(function(l) {
-				return l.get();
+			data: rooms.map(function(r) {
+				return r.get();
 			})
 		})
 	})
