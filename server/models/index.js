@@ -102,7 +102,8 @@ setTimeout(function() {
            for(var i = 1; i <= 25; i++) {
                 var slot = {
                     idSlot : i,
-                    name : 'S' + i
+                    name : 'S' + i,
+                    priority : (25 - i)
                 }
                 Slot.create(slot).then(function(s){
                     

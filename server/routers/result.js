@@ -25,7 +25,7 @@ router.post('/info', function(req, res) {
 });
 router.post('/generate', function(req, res) {
 	const { execFile } = require('child_process'); 
-    execFile('glpsol', ['--model', 'external/glpk_file.mod'], function (err, stdout, stderr) {
+    execFile('glpsol', ['--model', 'glpk/glpk_file.mod'], function (err, stdout, stderr) {
         if (err || stderr.length) {
             res.send({
             	code : -200,
@@ -40,9 +40,9 @@ router.post('/generate', function(req, res) {
     });
 
 
-   /* const cmd = "glpsol";
+  /*  const cmd = "glpsol";
     const model = "--model";
-    const file = "routers/glpk_file.mod"
+    const file = "glpk/glpk_file.mod"
     const { spawn } = require('child_process');
     const ls = spawn(cmd, [model, file]);
 

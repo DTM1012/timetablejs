@@ -1,45 +1,48 @@
-<a ng-click="self.viewLecturerNew()">Add New</a>
+<button type="button" class="btn btn-default margin-left-15px"
+		ng-click="self.viewLecturerNew()">
+	<i class="fa fa-plus"></i> Add New
+</button>
 <section class="content">
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="box">
-        <div class="box-header">
-          <h3 class="box-title">Lecturer List</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-          <table id="example2" class="table table-bordered table-hover">
-            <thead>
-	            <tr>
-	              <th>No.</th>
-	              <th>Lecturer Name</th>
-	              <th>Actions</th>
-	            </tr>
-            </thead>
-            <tbody>
-            	<tr ng-repeat="l in self.lecturers">
-            		<td width="10%">{{$index + 1}}</td>
+  	<div class="row">
+    	<div class="col-sm-8">
+      		<div class="box">
+		        <div class="box-header">
+		          <h3 class="box-title">Lecturer List</h3>
+		        </div>
+		        <!-- /.box-header -->
+		        <div class="box-body">
+		          	<table id="example2" class="table table-bordered table-hover">
+			            <thead>
+				            <tr>
+				              	<th>No.</th>
+				              	<th>Lecturer Name</th>
+				              	<th>Actions</th>
+				            </tr>
+			            </thead>
+			            <tbody>
+			            	<tr ng-repeat="l in self.lecturers">
+			            		<td width="10%">{{$index + 1}}</td>
 								<td width="60%">
 									{{l.name}}
 								</td>
 								<td width="30%">
 									<button class="btn btn-default btn-sm" ng-click="self.onButtonEdit(l); self.onEdit = 'true'">
-										<i class="fas fa-pencil-alt hover-style"></i> Edit
+										<i class="fa fa-pencil hover-style"></i> Edit
 									</button>
 									<button class="btn btn-primary btn-sm" ng-click="self.deleteLecturer(l);">
-										<i class="far fa-trash-alt hover-style"></i> Delete
+										<i class="fa fa-trash hover-style"></i> Delete
 									</button>
 								</td>
-			      	</tr>
-            </tbody>
-          </table>
-        </div>
+						      	</tr>
+			            </tbody>
+		          	</table>
+		        </div>
         <!-- /.box-body -->
-      </div>
+      		</div>
       <!-- /.box -->
-    </div>
+    	</div>
     <!-- /.col -->
-    <div class="col-sm-4" ng-if="self.onEdit == 'true'">
+    	<div class="col-sm-4" ng-if="self.onEdit == 'true'">
 			<div class="form-group">
 				<label class="label-control">Edit Lecturer</label>
 				<input type="text" class="form-control" 
@@ -48,5 +51,5 @@
 			<button class="btn btn-primary btn-sm float-right"
 					ng-click="self.editLecturer(self.lect);">Edit</button>
 		</div>
-  </div>
+ 	</div>
 </section>

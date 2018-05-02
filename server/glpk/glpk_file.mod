@@ -36,6 +36,7 @@ param Availability{l in L, s in S};
 param Teachability_RC{r in R, c in C};
 param Demand_C{c in C};
 param Capacity_R{r in R};
+param Priority_Slot{s in S};
 
 table l_L IN "iODBC"
   'DSN=glpkdb;UID=root;PWD=123456;DATABASE=glpkdb'
@@ -45,9 +46,9 @@ table l_L IN "iODBC"
 
 table l_S IN "iODBC"
   'DSN=glpkdb;UID=root;PWD=123456;DATABASE=glpkdb'
-  'SELECT idSlot'
+  'SELECT idSlot, priority'
   'FROM slots' :
-   S <- [ idSlot ];
+   S <- [ idSlot ], Priority_Slot ~ priority;
 
 table l_C IN "iODBC"
   'DSN=glpkdb;UID=root;PWD=123456;DATABASE=glpkdb'
@@ -79,13 +80,6 @@ table l_RC IN "iODBC"
   'SELECT idRoom, idClass, value'
   'FROM room_classes' :
    RC <- [idRoom, idClass], Teachability_RC ~ value;
-/*
-param Teachability_LC : Network      Calculus    Programming :=
-                  John     1             0             1
-                  David    1             1             0
-                  Robert   0             1             1  ;
-*/
-
 
 # Variables
 
@@ -93,11 +87,15 @@ var x{l in L, r in R, c in C, s in S} binary;
 
 # Objective Function
 
-# maximize TotalWorkload: sum{r in R,c in C, s in S} x[l,r,c,s];
+maximize PrioritySlot : sum{l in L, r in R, c in C, s in S} x[l,r,c,s] * Priority_Slot[s];
 
 # Constraints
 
-s.t. constrain_Single_S{s in S, r in R} : sum{l in L, c in C} x[l,r,c,s] <= 1;
+s.t. constrain_Single_SR{s in S, r in R} : sum{l in L, c in C} x[l,r,c,s] <= 1;
+
+s.t. constrain_Single_SL{l in L, s in S} : sum{r in R, c in C} x[l,r,c,s] <= 1;
+
+s.t. constrain_Single_S{s in S} : sum{l in L, r in R, c in C} x[l,r,c,s] <= 2;
 
 s.t. constrain_Credits{c in C} : sum{l in L, r in R, s in S} x[l,r,c,s] = Credits[c];
 
@@ -105,7 +103,7 @@ s.t. constrain_Teachability_LC{l in L, c in C, s in S} : sum{r in R} x[l,r,c,s] 
 
 s.t. constrain_Teachability_RC{l in L, r in R, c in C, s in S} : x[l,r,c,s] <= Teachability_RC[r,c];
 
-# s.t. constrain_Supply{r in R, c in C} : sum {l in L, s in S} x[l,r,c,s] * Demand_C[c] <= Capacity_R[r];
+s.t. constrain_Supply{l in L, r in R, c in C, s in S} : x[l,r,c,s] * Demand_C[c] <= Capacity_R[r];
 
 solve; 
 
@@ -116,19 +114,5 @@ table result{l in L, r in R, c in C, s in S: x[l,r,c,s]} OUT "iODBC"
   l ~ idLecturer, r ~ idRoom, c ~ idClass, s ~ idSlot, x[l,r,c,s] ~ value;
 
 data;
-
-
-/*
-
-param Availability : s1   s2  s3 :=
-            John      0   1   1
-            David     1   1   1
-            Robert    1   1   1 ;
-
-param Teachability_RC : Network      Calculus    Programming :=
-                  R001      1         0           1
-                  R002      1         1           0
-                  R003      1         1           1  ;
-*/
 
 end;

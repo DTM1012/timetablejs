@@ -15,7 +15,7 @@ router.post('/new', function(req, res) {
 				let prepareData = {
 					idRoom: r.get().idRoom,
 					idClass: c.get().idClass,
-					value: false
+					value: true
 				};
 				RoomClass.create(prepareData).then(function(rc) {
 					console.log(rc);

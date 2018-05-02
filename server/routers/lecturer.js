@@ -17,7 +17,7 @@ router.post('/new', function(req, res) {
 				let prepareData = {
 					idLecturer: l.get().idLecturer,
 					idClass: c.get().idClass,
-					value: false
+					value: true
 				};
 				LecturerClass.create(prepareData).then(function(lc) {
 					console.log("lccc", lc);

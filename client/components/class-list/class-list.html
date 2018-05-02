@@ -1,4 +1,7 @@
-<a ng-click="self.viewClassNew()">Add New</a>
+<button type="button" class="btn btn-default margin-left-15px"
+		ng-click="self.viewClassNew()">
+	<i class="fa fa-plus"></i> Add New
+</button>
 <section class="content">
   	<div class="row">
     	<div class="col-sm-8">
@@ -32,10 +35,10 @@
 								</td>
 								<td width="25%">
 									<button class="btn btn-default btn-sm" ng-click="self.onButtonEdit(c); self.onEdit = 'true'">
-										<i class="fas fa-pencil-alt hover-style"></i> Edit
+										<i class="fa fa-pencil hover-style"></i> Edit
 									</button>
 									<button class="btn btn-primary btn-sm" ng-click="self.deleteClass(c);">
-										<i class="far fa-trash-alt hover-style"></i> Delete
+										<i class="fa fa-trash hover-style"></i> Delete
 									</button>
 								</td>
 					      	</tr>

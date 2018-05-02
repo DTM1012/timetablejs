@@ -9,6 +9,9 @@ var slotSchema = {
 		},
 		name: {
 			type: Sequelize.STRING
+		},
+		priority: {
+			type: Sequelize.INTEGER
 		}
 	},
 	tableName: 'slot'
