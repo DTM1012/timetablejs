@@ -19,7 +19,10 @@ function Controller ($scope, $http) {
 		$scope.$parent.view('lecturerList');
 	};
 	this.addNewLecturer = function () {
-		if(!self.lect.name) return;
+		if(!self.lect.name) {
+			self.message = "Please enter lecturer name!"
+			return;
+		}
 		api.newLecturer($http, self.lect, function(res) {
 			if(res) {
 				self.lect = {};

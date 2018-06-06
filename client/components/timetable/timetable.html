@@ -1,3 +1,4 @@
+<h5>{{self.errMess}}</h5>
 <section class="content">
   	<div class="row">
     	<div class="col-sm-12">
@@ -21,23 +22,33 @@
 					    <tbody>
 					      	<tr>
 								<th>Monday</th>
-								<td ng-repeat="p in self.periods">{{self.getContent(p.s, 1, 1)}}</td>
+								<td ng-repeat="p in self.periods" class="word-spacing-10px">
+									{{self.getContent(p.s, 1, 1)}}
+								</td>
 							</tr>
 							<tr>
 								<th>Tuesday</th>
-								<td ng-repeat="p in self.periods">{{self.getContent(p.s, 2, 1)}}</td>
+								<td ng-repeat="p in self.periods" class="word-spacing-10px">
+									{{self.getContent(p.s, 2, 1)}}
+								</td>
 							</tr>
 							<tr>
 								<th>Wednesday</th>
-								<td ng-repeat="p in self.periods">{{self.getContent(p.s, 3, 1)}}</td>
+								<td ng-repeat="p in self.periods" class="word-spacing-10px">
+									{{self.getContent(p.s, 3, 1)}}
+								</td>
 							</tr>
 							<tr>
 								<th>Thursday</th>
-								<td ng-repeat="p in self.periods">{{self.getContent(p.s, 4, 1)}}</td>
+								<td ng-repeat="p in self.periods" class="word-spacing-10px">
+									{{self.getContent(p.s, 4, 1)}}
+								</td>
 							</tr>
 							<tr>
 								<th>Friday</th>
-								<td ng-repeat="p in self.periods">{{self.getContent(p.s, 5, 1)}}</td>
+								<td ng-repeat="p in self.periods" class="word-spacing-10px">
+									{{self.getContent(p.s, 5, 1)}}
+								</td>
 							</tr>
 					    </tbody>
 			        </table>
@@ -123,7 +134,7 @@
 							    	</tr>
 							    	<tr>
 							    		<th>Friday</th>
-							    		<td width="17%" ng-repeat="p in self.periods">{{self.getContent(p.s, 15 3)}}</td>
+							    		<td width="17%" ng-repeat="p in self.periods">{{self.getContent(p.s, 5, 3)}}</td>
 							    	</tr>
 						      	</tr>
 						    </tbody>

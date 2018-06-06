@@ -24,19 +24,24 @@ router.post('/info', function(req, res) {
 
 });
 router.post('/generate', function(req, res) {
-	const { execFile } = require('child_process'); 
-    execFile('glpsol', ['--model', 'glpk/glpk_file.mod'], function (err, stdout, stderr) {
-        if (err || stderr.length) {
-            res.send({
-            	code : -200,
-            	message: err || arguments
-            });
-        } else {
-            res.send({
-            	code : 200,
-            	message : stdout
-            });
-        }
+    Timetable.destroy({
+        where: {},
+        truncate: true
+    }).then(function(r) {
+    	const { execFile } = require('child_process'); 
+        execFile('glpsol', ['--model', 'glpk/glpk_file.mod'], function (err, stdout, stderr) {
+            if (err || stderr.length) {
+                res.send({
+                	code : -200,
+                	message: err || arguments
+                });
+            } else {
+                res.send({
+                	code : 200,
+                	message : stdout
+                });
+            }
+        });
     });
 
 

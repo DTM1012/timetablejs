@@ -21,7 +21,10 @@ function Controller ($scope, $http) {
 		$scope.$parent.view('classList');
 	};
 	this.addNewClass = function () {
-		if(!self.class.name) return;
+		if(!self.class.name || !self.class.credit || !self.class.demand) {
+			self.message = "Please check input!";
+			return;
+		}
 		api.newClass($http, self.class, function(res) {
 			if(res) {
 				self.class = {};

@@ -34,10 +34,6 @@ router.post('/edit', function(req, res) {
 	});
 });
 
-router.post('/delete', function(req, res) {
-	console.log("Delete");
-	res.send("Delete");
-});
 router.post('/list', function(req, res) {
 	LecturerClass.findAll()
 	.then(function(results){

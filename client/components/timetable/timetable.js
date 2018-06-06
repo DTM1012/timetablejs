@@ -9,17 +9,19 @@ angular.module(timetable, []).component(timetable, {
 function Controller ($scope, $http) {
 	let self = this;
 	this.tab = 1;
-
     this.setTab = function (tabId) {
         this.tab = tabId;
     };
-
     this.isSet = function (tabId) {
         return this.tab === tabId;
     };
     api.timetable($http, function(res) {
     	console.log("res", res);
     	self.data = res;
+    	if(!self.data.length) {
+    		console.log("empty");
+    		self.errMess = "Input is invalid! Please check again!";
+    	};
     	self.data.forEach(function(d) {
     		d.day = convertSlot(d.idSlot).day;
 			d.period = convertSlot(d.idSlot).period;
@@ -55,7 +57,7 @@ function Controller ($scope, $http) {
 												c.class = self.classes.find(cl => cl.idClass == c.idClass).name;
 												c.lecturer = self.lecturers.find(l => l.idLecturer == c.idLecturer).name;
 												c.room = self.rooms.find(r => r.idRoom == c.idRoom).name;
-												str += (c.class + '-' + c.lecturer + '-' + c.room + '\n');
+												str += (c.class + '-' + c.lecturer + '-' + c.room + ' \r\n');
 											});
 										}
 									} else if (tab == 2) {

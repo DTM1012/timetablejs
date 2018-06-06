@@ -13,15 +13,6 @@ router.post('/new', function(req, res) {
     };
 });
 
-router.post('/edit', function(req, res) {
-	console.log("Edit");
-	res.send("Edit");
-});
-
-router.post('/delete', function(req, res) {
-	console.log("Delete");
-	res.send("Delete");
-});
 router.post('/list', function(req, res) {
     Slot.findAll()
     .then(function(slots){

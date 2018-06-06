@@ -20,7 +20,10 @@ function Controller ($scope, $http) {
 		$scope.$parent.view('roomList');
 	};
 	this.addNewRoom = function () {
-		if(!self.room.name) return;
+		if(!self.room.name || !self.room.capacity) {
+			self.message = "Please check input!";
+			return;
+		}
 		api.newRoom($http, self.room, function(res) {
 			if(res) {
 				self.room = {};

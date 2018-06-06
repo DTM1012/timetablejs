@@ -74,3 +74,6 @@ a {
   	0% { transform: rotate(0deg); }
  	100% { transform: rotate(360deg); }
 }
+.word-spacing-10px {
+	word-spacing: 10px;
+}
